@@ -183,3 +183,18 @@ export async function getAllStudioSlugs(): Promise<string[]> {
   const studios = await getAllStudios(500);
   return studios.map((s) => s.slug);
 }
+
+/** Convert URL city slug → display name (e.g. "los-angeles" → "Los Angeles") */
+export function citySlugToName(slug: string): string {
+  return slug
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
+/** Studios filtered by city slug */
+export async function getStudiosByCity(citySlug: string): Promise<StudioCard[]> {
+  const cityName = citySlugToName(citySlug).toLowerCase();
+  const all = await getAllStudios(500);
+  return all.filter((s) => s.city.toLowerCase() === cityName);
+}

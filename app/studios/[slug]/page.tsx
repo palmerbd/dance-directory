@@ -147,8 +147,49 @@ export default async function StudioPage({
     { day: "Sunday",    val: hours?.sunday    },
   ].filter((r) => r.val);
 
+  // Build Schema.org LocalBusiness JSON-LD
+  const schemaOrg = {
+    "@context": "https://schema.org",
+    "@type": "DanceSchool",
+    "name": studio.title,
+    "description": studio.description || studio.tagline,
+    "url": studio.website || undefined,
+    "telephone": studio.phone || undefined,
+    "email": studio.email || undefined,
+    ...(studio.address || studio.city ? {
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": studio.address || undefined,
+        "addressLocality": studio.city || undefined,
+        "addressRegion": studio.state || undefined,
+        "postalCode": studio.zip || undefined,
+        "addressCountry": "US",
+      }
+    } : {}),
+    ...(studio.rating ? {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": studio.rating.toFixed(1),
+        "reviewCount": studio.reviewCount || 1,
+        "bestRating": "5",
+        "worstRating": "1",
+      }
+    } : {}),
+    ...(studio.privateLessonRate ? {
+      "priceRange": studio.privateLessonRate,
+    } : {}),
+    "currenciesAccepted": "USD",
+    "paymentAccepted": "Cash, Credit Card",
+  };
+
   return (
     <main>
+      {/* Schema.org structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }}
+      />
+
       {/* Hero / Title Bar */}
       <section
         className="py-14 px-6"
