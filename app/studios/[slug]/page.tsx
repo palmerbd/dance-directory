@@ -12,9 +12,10 @@ export const revalidate = 3600;
 
 // Static params
 
+// Return empty array — 4,000+ pages are generated on-demand via ISR (revalidate=3600).
+// Pre-rendering all slugs at build time exceeded Vercel's build resources.
 export async function generateStaticParams() {
-  const slugs = await getAllStudioSlugs();
-  return slugs.map((slug) => ({ slug }));
+  return [];
 }
 
 // Metadata

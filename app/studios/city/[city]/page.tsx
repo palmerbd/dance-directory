@@ -12,10 +12,15 @@ export const revalidate = 3600;
 
 // ── Static params ─────────────────────────────────────────────────────────────
 
+// Pre-build only the major metro city hubs; all others render on-demand via ISR.
 export async function generateStaticParams() {
-  const all = await getAllStudios(100);
-  const cities = [...new Set(all.map((s) => s.city.toLowerCase().replace(/\s+/g, "-")))];
-  return cities.map((city) => ({ city }));
+  const majorCities = [
+    "new-york","los-angeles","chicago","houston","dallas","miami",
+    "phoenix","san-antonio","san-diego","atlanta","austin","denver",
+    "seattle","portland","boston","las-vegas","orlando","tampa",
+    "charlotte","nashville",
+  ];
+  return majorCities.map((city) => ({ city }));
 }
 
 // ── Metadata ──────────────────────────────────────────────────────────────────
