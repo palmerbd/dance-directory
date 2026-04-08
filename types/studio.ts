@@ -19,7 +19,7 @@ export type DanceStyle =
   | "wedding_dance"
   | "competition";
 
-export type ListingTier = "free" | "paid";
+export type ListingTier = "free" | "claimed" | "paid";
 
 export interface StudioHours {
   monday?:    string;
