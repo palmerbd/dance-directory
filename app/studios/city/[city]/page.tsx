@@ -13,7 +13,7 @@ export const revalidate = 3600;
 // ── Static params ─────────────────────────────────────────────────────────────
 
 export async function generateStaticParams() {
-  const all = await getAllStudios(500);
+  const all = await getAllStudios(100);
   const cities = [...new Set(all.map((s) => s.city.toLowerCase().replace(/\s+/g, "-")))];
   return cities.map((city) => ({ city }));
 }

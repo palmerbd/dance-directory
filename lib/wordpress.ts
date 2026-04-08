@@ -295,7 +295,7 @@ export async function getStudio(slug: string): Promise<Studio | null> {
 
 /** All slugs for generateStaticParams */
 export async function getAllStudioSlugs(): Promise<string[]> {
-  const studios = await getAllStudios(500);
+  const studios = await getAllStudios(100);
   return studios.map((s) => s.slug);
 }
 
@@ -344,7 +344,8 @@ for (const [metroSlug, cities] of Object.entries(METRO_AREAS)) {
 
 /** Studios filtered by city slug — includes metro-area suburbs when applicable */
 export async function getStudiosByCity(citySlug: string): Promise<StudioCard[]> {
-  const all = await getAllStudios(500);
+  // Use perPage=100 (WP REST API default max). getAllStudios paginates automatically.
+  const all = await getAllStudios(100);
 
   // Check if this slug is a known metro area
   if (METRO_AREAS[citySlug]) {

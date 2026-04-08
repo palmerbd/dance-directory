@@ -5,7 +5,11 @@ import { getStudiosPage, getStudiosByStyle, getAllStudios } from "@/lib/wordpres
 import { DANCE_STYLES, STYLE_LABELS, DanceStyle } from "@/types/studio";
 import { StudioSearch } from "./StudioSearch";
 
-export const revalidate = 3600;
+// force-dynamic ensures searchParams are read fresh on every request.
+// Without this, Next.js ISR would cache one version and serve it for all
+// ?city=, ?q=, ?chain=, ?rating= variants, ignoring the filter params.
+// Data-level caching still applies via fetch() cache in lib/wordpress.ts.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Find Private Dance Studios Near You",
